@@ -1,0 +1,424 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "TodoTask and Tour API",
+    "description": "API for managing todo tasks and tours."
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Bearer token for authentication. Example: 'Bearer {token}'"
+    }
+  },
+  "security": [
+    { "Bearer": [] }
+  ],
+  "paths": {
+    "/todoTasks": {
+      "get": {
+        "summary": "Get all TodoTasks",
+        "description": "Retrieve a list of all TodoTasks for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "responses": {
+          "200": {
+            "description": "List of todo tasks.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TodoTask"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new TodoTask",
+        "description": "Create a new TodoTask for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TodoTaskInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "TodoTask created.",
+            "schema": {
+              "$ref": "#/definitions/TodoTask"
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/todoTasks/{id}": {
+      "get": {
+        "summary": "Get a TodoTask by ID",
+        "description": "Retrieve a specific TodoTask by its ID for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the TodoTask."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TodoTask details.",
+            "schema": {
+              "$ref": "#/definitions/TodoTask"
+            }
+          },
+          "404": {
+            "description": "TodoTask not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a TodoTask by ID",
+        "description": "Delete a specific TodoTask by its ID for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the TodoTask."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "TodoTask deleted successfully."
+          },
+          "404": {
+            "description": "TodoTask not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a TodoTask by ID",
+        "description": "Update a specific TodoTask by its ID for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the TodoTask."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TodoTaskInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TodoTask updated successfully.",
+            "schema": {
+              "$ref": "#/definitions/TodoTask"
+            }
+          },
+          "404": {
+            "description": "TodoTask not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/tours": {
+      "get": {
+        "summary": "Get all Tours",
+        "description": "Retrieve a list of all Tours.",
+        "tags": ["Tours"],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "List of tours.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Tour"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new Tour",
+        "description": "Create a new Tour.",
+        "security": [],
+        "tags": ["Tours"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TourInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Tour created.",
+            "schema": {
+              "$ref": "#/definitions/Tour"
+            }
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      }
+    },
+    "/tours/{tourId}": {
+      "get": {
+        "summary": "Get a Tour by ID",
+        "description": "Retrieve a specific Tour by its ID.",
+        "security": [],
+        "tags": ["Tours"],
+        "parameters": [
+          {
+            "name": "tourId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the Tour."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tour details.",
+            "schema": {
+              "$ref": "#/definitions/Tour"
+            }
+          },
+          "400": {
+            "description": "Invalid tour ID."
+          },
+          "404": {
+            "description": "Tour not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a Tour by ID",
+        "description": "Update a specific Tour by its ID.",
+        "security": [],
+        "tags": ["Tours"],
+        "parameters": [
+          {
+            "name": "tourId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the Tour."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TourInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tour updated successfully.",
+            "schema": {
+              "$ref": "#/definitions/Tour"
+            }
+          },
+          "400": {
+            "description": "Invalid tour ID."
+          },
+          "404": {
+            "description": "Tour not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a Tour by ID",
+        "description": "Delete a specific Tour by its ID.",
+        "security": [],
+        "tags": ["Tours"],
+        "parameters": [
+          {
+            "name": "tourId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the Tour."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Tour deleted successfully."
+          },
+          "400": {
+            "description": "Invalid tour ID."
+          },
+          "404": {
+            "description": "Tour not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TodoTask": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the TodoTask."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the TodoTask."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the TodoTask."
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The due date of the TodoTask."
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether the TodoTask is completed."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation date of the TodoTask."
+        },
+        "user_id": {
+          "type": "string",
+          "description": "The ID of the user who created the TodoTask."
+        }
+      }
+    },
+    "TodoTaskInput": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the TodoTask.",
+          "example": "Buy groceries"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the TodoTask.",
+          "example": "Milk, eggs, bread"
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The due date of the TodoTask.",
+          "example": "2023-12-31T23:59:59Z"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether the TodoTask is completed.",
+          "example": false
+        }
+      }
+    },
+    "Tour": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the Tour."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the Tour."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the Tour."
+        },
+        "price": {
+          "type": "number",
+          "description": "The price of the Tour."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation date of the Tour."
+        }
+      }
+    },
+    "TourInput": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the Tour.",
+          "example": "Historical Sites Tour"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the Tour.",
+          "example": "A guided tour of historical sites."
+        },
+        "price": {
+          "type": "number",
+          "description": "The price of the Tour.",
+          "example": 150.0
+        }
+      }
+    }
+  }
+}
+

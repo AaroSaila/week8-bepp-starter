@@ -1,0 +1,551 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "TodoTask, Tour, and User API",
+    "description": "API for managing todo tasks, tours, and user authentication."
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Bearer token for authentication. Example: 'Bearer {token}'"
+    }
+  },
+  "security": [
+    { "Bearer": [] }
+  ],
+  "paths": {
+    "/todoTasks": {
+      "get": {
+        "summary": "Get all TodoTasks",
+        "description": "Retrieve a list of all TodoTasks for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "responses": {
+          "200": {
+            "description": "List of todo tasks.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TodoTask"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new TodoTask",
+        "description": "Create a new TodoTask for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TodoTaskInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "TodoTask created.",
+            "schema": {
+              "$ref": "#/definitions/TodoTask"
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/todoTasks/{id}": {
+      "get": {
+        "summary": "Get a TodoTask by ID",
+        "description": "Retrieve a specific TodoTask by its ID for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the TodoTask."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TodoTask details.",
+            "schema": {
+              "$ref": "#/definitions/TodoTask"
+            }
+          },
+          "404": {
+            "description": "TodoTask not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a TodoTask by ID",
+        "description": "Delete a specific TodoTask by its ID for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the TodoTask."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "TodoTask deleted successfully."
+          },
+          "404": {
+            "description": "TodoTask not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a TodoTask by ID",
+        "description": "Update a specific TodoTask by its ID for the authenticated user.",
+        "tags": ["TodoTasks"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the TodoTask."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TodoTaskInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TodoTask updated successfully.",
+            "schema": {
+              "$ref": "#/definitions/TodoTask"
+            }
+          },
+          "404": {
+            "description": "TodoTask not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/tours": {
+      "get": {
+        "summary": "Get all Tours",
+        "description": "Retrieve a list of all Tours.",
+        "tags": ["Tours"],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "List of tours.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Tour"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new Tour",
+        "description": "Create a new Tour.",
+        "security": [],
+        "tags": ["Tours"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TourInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Tour created.",
+            "schema": {
+              "$ref": "#/definitions/Tour"
+            }
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      }
+    },
+    "/tours/{tourId}": {
+      "get": {
+        "summary": "Get a Tour by ID",
+        "description": "Retrieve a specific Tour by its ID.",
+        "security": [],
+        "tags": ["Tours"],
+        "parameters": [
+          {
+            "name": "tourId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the Tour."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tour details.",
+            "schema": {
+              "$ref": "#/definitions/Tour"
+            }
+          },
+          "400": {
+            "description": "Invalid tour ID."
+          },
+          "404": {
+            "description": "Tour not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a Tour by ID",
+        "description": "Update a specific Tour by its ID.",
+        "security": [],
+        "tags": ["Tours"],
+        "parameters": [
+          {
+            "name": "tourId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the Tour."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TourInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tour updated successfully.",
+            "schema": {
+              "$ref": "#/definitions/Tour"
+            }
+          },
+          "400": {
+            "description": "Invalid tour ID."
+          },
+          "404": {
+            "description": "Tour not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a Tour by ID",
+        "description": "Delete a specific Tour by its ID.",
+        "security": [],
+        "tags": ["Tours"],
+        "parameters": [
+          {
+            "name": "tourId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the Tour."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Tour deleted successfully."
+          },
+          "400": {
+            "description": "Invalid tour ID."
+          },
+          "404": {
+            "description": "Tour not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "This endpoint allows a user to register by providing name, email, and password.",
+        "operationId": "signupUser",
+        "security": [],
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "description": "The user's full name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "description": "The user's email address.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "description": "The user's password.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User successfully registered.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "The email address of the registered user."
+                },
+                "token": {
+                  "type": "string",
+                  "description": "The JWT token generated for the user."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Error message for the request failure."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Authenticate an existing user",
+        "description": "This endpoint authenticates a user by validating their email and password.",
+        "operationId": "loginUser",
+        "security": [],
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "description": "The user's email address.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "description": "The user's password.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully authenticated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "The email address of the authenticated user."
+                },
+                "token": {
+                  "type": "string",
+                  "description": "The JWT token generated for the user."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials or bad request.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Error message for invalid credentials."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/me": {
+      "get": {
+        "summary": "Get current authenticated user data",
+        "description": "This endpoint returns the user data of the currently authenticated user.",
+        "operationId": "getMe",
+        "tags": ["User"],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user data.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "The user ID."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The user's full name."
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The user's email address."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Error message for unauthorized access."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TodoTask": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "TodoTaskInput": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Tour": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "destination": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        }
+      }
+    },
+    "TourInput": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "destination": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+
